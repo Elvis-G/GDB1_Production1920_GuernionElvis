@@ -37,7 +37,7 @@ music_Micro_Game = this.sound.add('song_micro_game');
 sound_Check = this.sound.add('song_check');
 sound_Select = this.sound.add('sound_select');
 
-music_Menu.volume = 0.05;
+music_Menu.volume = 0.08;
 music_Menu.play();
 
 
@@ -59,7 +59,8 @@ this.input.on('pointerdown', function (pointer) {
          if (pointer.leftButtonDown())
          {
             music_Menu.stop();
-              this.scene.start("scene_Micro_Game_1");
+            chest = 0;
+            this.scene.start("scene_Transi_Win");
          }
       }
  }, this);

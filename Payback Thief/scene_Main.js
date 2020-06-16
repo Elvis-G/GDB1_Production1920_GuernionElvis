@@ -10,7 +10,7 @@ physics: {
         }
     },
 
-scene: [Scene_Menu, Scene_Micro_Game_1, Scene_Score]
+scene: [Scene_Intro, Scene_Menu, Scene_Transi_Win, Scene_Micro_Game_1, Scene_Micro_Game_2, Scene_Micro_Game_3, Scene_Transi_Lose, Scene_Score]
 
 };
 

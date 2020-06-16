@@ -35,27 +35,118 @@ music_Micro_Game.play();
 //////// Background ////////
 background_Micro_1 = this.add.sprite(450,800,'background_micro_1');
 
+
+/////// Keys ///////
+normalKey_one = this.add.sprite(150,250,'normalKey_1');
+normalKey_two = this.add.sprite(400,450,'normalKey_2');
+normalKey_three = this.add.sprite(750,250,'normalKey_3');
+
+goldenKey_one = this.add.sprite(450,1200,'goldKey_1');
+goldenKey_two = this.add.sprite(450,1150,'goldKey_2');
+goldenKey_three = this.add.sprite(450,1150,'goldKey_3');
+
+goldenKey_one.visible = false;
+goldenKey_two.visible = false;
+goldenKey_three.visible = false;
+
+
 ///// Typo /////
-  text = this.add.bitmapText(755, 1435, 'pomino', '', 64).setScrollFactor(0);
+text = this.add.bitmapText(755, 1435, 'pomino', '', 64).setScrollFactor(0);
+text_indication = this.add.bitmapText(280, 700, 'pomino', 'FIND', 128).setScrollFactor(0);
+
+
+
+////// Answer Zone ///////
+
+this.input.mouse.disableContextMenu();
+
+
+this.input.on('pointerdown', function (pointer) {
+
+     if (pointer.x > 40 & pointer.x < 255 & pointer.y > 150 & pointer.y < 400)
+     {
+         if (pointer.leftButtonDown() & golden_answer == 1)
+         {
+              music_Micro_Game.stop();
+              game_status = 1;
+         } else {
+           music_Micro_Game.stop();
+           game_status = 2;
+         }
+      }
+
+      if (pointer.x > 270 & pointer.x < 500 & pointer.y > 340 & pointer.y < 570)
+      {
+          if (pointer.leftButtonDown() & golden_answer == 2)
+          {
+               music_Micro_Game.stop();
+               game_status = 1;
+          } else {
+            music_Micro_Game.stop();
+            game_status = 2;
+          }
+       }
+
+       if (pointer.x > 620 & pointer.x < 850 & pointer.y > 150 & pointer.y < 400)
+       {
+           if (pointer.leftButtonDown() & golden_answer == 3)
+           {
+                music_Micro_Game.stop();
+                game_status = 1;
+           } else {
+             music_Micro_Game.stop();
+             game_status = 2;
+           }
+        }
+ }, this);
+
 
 
 }
 
 update(){
 
+
+///// Random Key to find /////
+
+if (golden_answer == 0) {
+  golden_answer = Phaser.Math.Between(1,3);
+}
+
+if (golden_answer == 1) {
+  goldenKey_one.visible = true;
+} else if (golden_answer == 2) {
+  goldenKey_two.visible = true;
+} else if (golden_answer == 3) {
+  goldenKey_three.visible = true;
+}
+
+
+
+
+
+
+////// Text Indication  Destroy/////
+
+if (chrono < 9.1) {
+text_indication.destroy();
+}
+
+
+
 ///// TIMER ////
 
-if (chrono > 10) {
+if (chrono == 10) {
   text.setText("10");
   if (game_status == 1) {
     score += 100
   }
-} else if (chrono > 9.9) {
+} else if (chrono == 9.9) {
   text.setText("9.9");
   if (game_status == 1) {
     score += 99
   }
-} else if (chrono > 9.8) {
+} else if (chrono == 9.8) {
   text.setText("9.8");
   if (game_status == 1) {
     score += 98
@@ -547,6 +638,22 @@ if (chrono > 10) {
     score += 1
   }
 }
+
+if (game_status == 2) {
+  music_Micro_Game.stop();
+  golden_answer = 0;
+  chrono = 10;
+  game_status = 0;
+  advancement = 1;
+  this.scene.start("scene_Transi_Lose");
+} else if (game_status == 1) {
+  golden_answer = 0;
+  chrono = 10;
+  game_status = 0;
+  advancement += 1;
+  this.scene.start("scene_Transi_Win");
+}
+
 
 }
 
